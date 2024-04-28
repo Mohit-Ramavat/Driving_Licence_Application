@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('layouts/header') -%>
+
+  <body class="d-flex flex-column h-100">
+    <main class="flex-shrink-0">
+      <nav class="navbar navbar-expand-lg navbar-light bg-white py-3">
+        <div class="container px-5">
+          <a class="navbar-brand" href="/"><span class="fw-bolder text-primary">Book Drive Test</span></a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0 small fw-bolder">
+              <li class="nav-item"><a class="nav-link" href="/logout">LOGOUT</a></li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+      <section class="py-5">
+        <div class="container px-5">
+          <!-- Contact form-->
+          <div class="bg-light rounded-4 py-5 px-4 px-md-5">
+            <div class="text-center mb-5">
+              <h1 class="fw-bolder">Admin</h1>
+            </div>
+            <div class="row gx-5 justify-content-center">
+              <div class="col-lg-8 col-xl-6">
+                <form action="/admin/appointment" method="post">
+                  <input class="form-control" name="time" id="time" type="hidden" />
+                  <div class="form-floating mb-3">
+                    <input class="form-control" value="<%= date %>" id="date" type="date" name="date" required />
+                    <label for="lastname">Date</label>
+                  </div>
+                  <div class="form-floating mb-3">
+                    <div class="d-flex justify-content-between">
+                      <div class="slot">10:00</div>
+                      <div class="slot">10:30</div>
+                      <div class="slot">11:00</div>
+                      <div class="slot">11:30</div>
+                      <div class="slot">12:30</div>
+                      <div class="slot">01:00</div>
+                      <div class="slot">01:30</div>
+                      <div class="slot">02:00</div>
+                    </div>
+                  </div>
+                  <div class="d-grid"><button disabled class="btn btn-primary btn-lg" id="submitButton" type="submit" name="submit">Submit</button></div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <!-- Footer-->
+    <%- include('layouts/footer') -%> <%- include('layouts/script') -%>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        var slot = document.querySelectorAll('.slot');
+        slot.forEach(function (button) {
+          button.addEventListener('click', function () {
+            if (!this.classList.contains('bookedTime')) {
+              slot.forEach(function (btn) {
+                btn.classList.remove('pickedTime');
+              });
+              this.classList.add('pickedTime');
+              document.getElementById('time').value = this.textContent;
+              document.getElementById('submitButton').disabled = false;
+            }
+          });
+        });
+
+        function slotLoadFunction() {
+          var slot = document.querySelectorAll('.slot');
+          slot.forEach(function (button) {
+            button.classList.remove('bookedTime');
+            button.classList.remove('pickedTime');
+          });
+
+          var data = <%- JSON.stringify(appointments) %>;
+          var date = document.getElementById('date').value;
+          var input = data.filter((x) => x.date === date);
+          input.forEach(function (data) {
+            slot.forEach(function (button) {
+              if (button.textContent === data.time) {
+                button.classList.add('bookedTime');
+              }
+            });
+          });
+        }
+
+        slotLoadFunction();
+
+        document.getElementById('date').addEventListener('change', function () {
+          slotLoadFunction();
+        });
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('layouts/header') -%>
+
+  <body class="d-flex flex-column h-100">
+    <main class="flex-shrink-0">
+      <!-- Navigation-->
+      <%- include('layouts/nav') -%>
+      <section class="py-5">
+        <div class="container px-5">
+          <!-- Contact form-->
+          <div class="bg-light rounded-4 py-5 px-4 px-md-5">
+            <div class="text-center mb-5">
+              <h1 class="fw-bolder">G2 Page</h1>
+            </div>
+            <div class="row gx-5 justify-content-center">
+              <div class="col-lg-8 col-xl-6">
+                <form action="/user/appointment" method="post">
+                  <input class="form-control" name="time" id="time" type="hidden" />
+                  <div class="form-floating mb-3">
+                    <input class="form-control" value="<%= date %>" id="date" type="date" name="date" required />
+                    <label for="lastname">Date</label>
+                  </div>
+                  <div class="form-floating mb-3">
+                    <div class="d-flex justify-content-between" id="slotDivAppend"></div>
+                  </div>
+                  <div class="d-grid"><button class="btn btn-primary btn-lg" id="submitButton" disabled type="submit" name="submit">Submit</button></div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <!-- Footer-->
+    <%- include('layouts/footer') -%> <%- include('layouts/script') -%>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        function appenedTimeSlot() {
+          var slot = document.querySelectorAll('.slot');
+          slot.forEach(function (button) {
+            button.addEventListener('click', function () {
+              if (!this.classList.contains('bookedTime')) {
+                slot.forEach(function (btn) {
+                  btn.classList.remove('pickedTime');
+                });
+                this.classList.add('pickedTime');
+                document.getElementById('time').value = this.textContent;
+                document.getElementById('submitButton').disabled = false;
+              }
+            });
+          });
+        }
+
+        function slotLoadFunction() {
+          var slot = document.querySelectorAll('.slot');
+          slot.forEach(function (button) {
+            button.classList.remove('bookedTime');
+            button.classList.remove('pickedTime');
+          });
+
+          var data = <%- JSON.stringify(appointments) %>;
+          var date = document.getElementById('date').value;
+          var input = data.filter((x) => x.date === date);
+          input.forEach(function (data) {
+            document.getElementById('slotDivAppend').innerHTML += `<div class="slot">${data.time}</div>`;
+            appenedTimeSlot();
+          });
+        }
+
+        slotLoadFunction();
+
+        document.getElementById('date').addEventListener('change', function () {
+          slotLoadFunction();
+        });
+      });
+    </script>
+  </body>
+</html>

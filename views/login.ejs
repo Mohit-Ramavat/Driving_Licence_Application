@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('layouts/header') -%>
+
+  <body class="d-flex flex-column h-100">
+    <main class="flex-shrink-0">
+      <!-- Navigation-->
+      <%- include('layouts/nav') -%>
+
+      <section class="py-5">
+        <div class="container px-5">
+          <!-- Contact form-->
+          <div class="bg-light rounded-4 py-5 px-4 px-md-5">
+            <div class="text-center mb-5">
+              <h1 class="fw-bolder">Login</h1>
+            </div>
+            <div class="row gx-5 justify-content-center">
+              <div class="col-lg-8 col-xl-6">
+                <form action="/login" method="post">
+                  <!-- Username input-->
+                  <div class="form-floating mb-3">
+                    <input class="form-control" id="username" name="username" type="text" placeholder="Enter your Username" required />
+                    <label for="username">Username</label>
+                  </div>
+                  <!-- Passwprd input-->
+                  <div class="form-floating mb-3">
+                    <input class="form-control" id="password" name="password" type="password" placeholder=" Enter your Password" required />
+                    <label for="password">Password</label>
+                  </div>
+
+                  <% if (typeof err!=="undefined" && err!==null) { %>
+                  <div class="text-danger mt-2"><%= err %></div>
+                  <br />
+                  <%} %>
+
+                  <div class="d-grid"><button class="btn btn-primary btn-lg" id="submitButton" type="submit">Submit</button></div>
+
+                  <br />
+                  <br />
+                  <a href="/signup">Register Here!</a>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <!-- Footer-->
+    <%- include('layouts/footer') -%> <%- include('layouts/script') -%>
+  </body>
+</html>

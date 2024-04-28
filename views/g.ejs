@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('layouts/header') -%>
+
+  <body class="d-flex flex-column h-100">
+    <main class="flex-shrink-0">
+      <!-- Navigation-->
+      <%- include('layouts/nav') -%>
+      <section class="py-5">
+        <div class="container px-5">
+          <!-- Contact form-->
+          <div class="bg-light rounded-4 py-5 px-4 px-md-5">
+            <div class="text-center mb-5">
+              <h1 class="fw-bolder">G Test</h1>
+            </div>
+            <div class="row gx-5 justify-content-center">
+              <div class="col-lg-8 col-xl-6">
+                <form action="/user/update" method="post">
+                  <h2>Personal Information</h2>
+                  <div class="form-floating mb-3">
+                    <input value="<%= userDataGet._id %>" type="hidden" name="_id" />
+                    <input class="form-control" <% if (userDataGet.firstname!="default" ) { %> readonly <%} %> value="<%= userDataGet.firstname %>" id="firstname" type="text" name="firstname" placeholder="Enter your First Name" required />
+                    <label for="firstname">First Name</label>
+                  </div>
+
+                  <div class="form-floating mb-3">
+                    <input class="form-control" <% if (userDataGet.lastname!="default" ) { %> readonly <%} %> value="<%= userDataGet.lastname %>" id="lastname" type="text" name="lastname" placeholder="Enter your Last Name" required />
+                    <label for="lastname">Last Name</label>
+                  </div>
+
+                  <div class="form-floating mb-3">
+                    <input class="form-control" <% if (userDataGet.age!=0 ) { %> readonly <%} %> value="<%= userDataGet.age %>" id="age" type="number" name="age" placeholder="Enter your Age" required />
+                    <label for="age">Age</label>
+                  </div>
+
+                  <div class="form-floating mb-3">
+                    <input class="form-control" <% if (userDataGet.licence_number!="default" ) { %> readonly <%} %> value="<%= userDataGet.licence_number %>" id="lic_num" type="text" name="licence_number" placeholder="Enter your Licence Number" required />
+                    <label for="lic_num">Licence Number</label>
+                  </div>
+                  <h2>Car Information</h2>
+                  <div class="form-floating mb-3">
+                    <input class="form-control" value="<%= userDataGet.car_details.make %>" id="make" type="text" name="make" placeholder="Make" required />
+                    <label for="make">Make</label>
+                  </div>
+                  <div class="form-floating mb-3">
+                    <input class="form-control" value="<%= userDataGet.car_details.model %>" id="model" type="text" name="model" required />
+                    <label for="model">model</label>
+                  </div>
+                  <div class="form-floating mb-3">
+                    <input class="form-control" value="<%= userDataGet.car_details.year %>" id="year" type="number" name="year" placeholder="Year" required />
+                    <label for="year">Year</label>
+                  </div>
+                  <div class="form-floating mb-3">
+                    <input class="form-control" value="<%= userDataGet.car_details.plate_number %>" id="plate_number" type="text" name="plate_number" placeholder="Plate Number" required />
+                    <label for="plate_number">Plate Number</label>
+                  </div>
+                  <div class="d-grid"><button class="btn btn-primary btn-lg" id="submitButton" type="submit" name="submit">Submit</button></div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <!-- Footer-->
+    <%- include('layouts/footer') -%> <%- include('layouts/script') -%>
+  </body>
+</html>
